@@ -1,0 +1,91 @@
+What did the game look like the first time you ran it?
+
+When I first ran the game, the interface loaded correctly with the title, sidebar settings, and a text box to enter a guess. 
+However, I quickly noticed that some parts of the game behaved strangely and did not match the instructions shown on the screen. 
+The debug panel also revealed some unexpected values that made it easier to see where the logic was inconsistent. 
+While the game was playable, several features did not work the way a normal guessing game should. These issues made the gameplay confusing.
+
+Explain at least two concrete bugs you noticed at the start
+One bug I noticed was that the hint directions were backwards. When I guessed a number that was higher than the secret number, the game told me to “Go HIGHER” instead of telling me to go lower. This made the hints misleading and could cause players to move farther away from the correct answer. The message logic in the code appeared to be reversed, which caused the wrong hint to be displayed.
+Another issue was that starting a new game ignored the selected difficulty settings. When I clicked the “New Game” button, the secret number was always generated between 1 and 100, regardless of the difficulty chosen. This meant the Easy and Hard modes were not actually functioning as intended. As a result, the difficulty settings did not consistently affect the gameplay.
+One bug I noticed was that the Normal and Hard difficulty ranges appeared to be swapped. When selecting Hard mode, the range shown in the sidebar was 1 to 50, which is actually smaller and easier than the Normal range of 1 to 100. Hard difficulty should normally make the game more challenging by increasing the range or making the number harder to guess. Because of this swap, Hard mode was actually easier than Normal mode. This made the difficulty levels feel incorrect.
+One issue I noticed was that the New Game and Submit Guess buttons were out of sync. After clicking the New Game button, I would enter a number and press Submit Guess, but nothing would happen. The problem was that the game’s status variable was not being reset when a new game started. Because the status was still set to “won” or “lost,” the program stopped before processing the new guess. 
+To fix this, I updated the New Game logic to reset the game state by setting  st.session_state.status = "playing" and clearing other values like attempts and history. After making this change, the Submit Guess button worked normally after starting a new game.
+
+Which AI tools did you use on this project (for example: ChatGPT, Gemini, Copilot)?
+For this project, I used GitHub Copilot to help me debug and understand parts of the code. 
+I mainly used AI to ask questions about why certain parts of the game were behaving incorrectly and to help locate where the logic problems were in the program.
+AI acted like a teammate by suggesting possible fixes and explaining what certain parts of the code were doing. 
+I still tested everything myself to make sure the suggestions actually solved the problems.
+
+Give one example of an AI suggestion that was correct (including what the AI suggested and how you verified the result).
+One example of an AI suggestion that was correct was when it pointed out that the hint logic in the check_guess function was reversed. 
+The AI explained that when a guess is higher than the secret number, the game should tell the player to go lower, but the code was telling them to go higher instead. 
+After changing the hint messages in that function, the game started giving the correct feedback. 
+I verified the fix by running the game and intentionally guessing numbers that were higher and lower than the secret number. 
+The hints then correctly directed me in the right direction.
+
+Give one example of an AI suggestion that was incorrect or misleading (including what the AI suggested and how you verified the result).
+One example of an AI suggestion that was incorrect or misleading was when it suggested that the difficulty ranges were correct as written. 
+At first glance the code looked fine, but when I tested the game manually, I noticed that Hard mode actually had a smaller range than Normal mode. 
+This made Hard mode easier instead of harder. I verified the problem by checking the get_range_for_difficulty() function and comparing the ranges shown in the sidebar. 
+This showed that the difficulty ranges needed to be adjusted to match the intended gameplay.
+
+How did you decide whether a bug was really fixed?
+To decide whether a bug was really fixed, I ran the Streamlit app multiple times and tested different gameplay situations. 
+I tried different difficulty levels, entered different guesses, and used the New Game button several times. 
+If the behavior matched what the game was supposed to do, then I considered the bug fixed. 
+I also used the developer debug panel to watch the secret number, attempts, and score while testing changes.
+
+Describe at least one test you ran (manual or using pytest) and what it showed you about your code.
+One manual test I ran was to check whether the hint messages worked correctly after fixing them. 
+I purposely guessed numbers that were much higher and much lower than the secret number to see if the hints told me to go in the correct direction. 
+I even wrote down them to keep track to see if the secret number was reasonable after all attempts and hints. 
+After the fix, guessing higher than the secret correctly showed “Go”.
+
+Did AI help you design or understand any tests? How?
+AI did help me understand some of the testing steps. For example, AI suggested intentionally guessing numbers that were clearly higher or lower than the secret number
+to confirm that the hints behaved correctly. It also suggested testing the New Game button multiple times to make sure the game state reset properly. 
+These suggestions helped me think about testing the program from a player’s perspective instead of just reading the code. 
+Even with AI’s help, I still ran the tests myself to verify the results.
+
+In your own words, explain why the secret number kept changing in the original app.
+The secret number kept changing in the original app because of how Streamlit reruns the script every time a user interacts with the interface. 
+When a button is clicked or a value is entered, Streamlit reruns the entire script from the top. 
+If the secret number is generated normally in the script without storing it, a new number can be created each time the script reruns. 
+This makes the game inconsistent because the number the player is trying to guess may change between guesses. 
+As a result, the player could never actually reach the correct answer.
+
+How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
+I would explain Streamlit reruns and session state to a friend by saying that Streamlit works like refreshing the program every time you interact with the page. 
+Instead of updating only one part of the app, the whole script runs again from the beginning. 
+Session state is like a memory that stores important values so they don’t reset during these reruns. 
+By saving variables such as the secret number or attempt count in session state, the program can remember them between interactions. 
+Without session state, the game would lose track of important information every time something changes.
+
+What change did you make that finally gave the game a stable secret number?
+The change that finally gave the game a stable secret number was storing the value inside st.session_state. 
+Instead of generating a new number every time the script ran, the code first checks whether "secret" already exists in the session state. 
+If it does not exist, the game generates a random number and saves it there. Because the value is stored in session state, it stays the same across multiple guesses. 
+This allowed the player to keep guessing the same number until they won or ran out of attempts.
+
+What is one habit or strategy from this project that you want to reuse in future labs or projects?
+One habit I want to reuse in future labs or projects is testing small changes frequently while running the program. 
+Instead of making many changes at once, I learned that it is better to fix one issue and then immediately test it. 
+This makes it easier to see exactly which change fixed the bug or caused a new one. 
+I also found that using debugging tools like print statements or a debug panel can make it much easier to understand what the program is doing internally. 
+This approach helped me track values like the secret number and attempts while testing.
+
+What is one thing you would do differently next time you work with AI on a coding task?
+One thing I would do differently next time when working with AI on a coding task is to verify its suggestions more carefully before assuming they are correct. 
+AI can give helpful explanations and ideas, but sometimes it misses details or misunderstands the problem. 
+In this project, I learned that it is important to test every suggestion directly in the code. 
+I would also try asking more specific questions so the AI focuses on the exact part of the problem I am debugging.
+
+In one or two sentences, describe how this project changed the way you think about AI generated code.
+This project changed the way I think about AI-generated code because I realized that AI can be helpful but it is not always reliable. 
+It can speed up debugging and explain concepts, but developers still need to understand the code and test everything themselves. 
+AI works best as a tool or teammate, not as something that should be trusted blindly.
+
+
+
