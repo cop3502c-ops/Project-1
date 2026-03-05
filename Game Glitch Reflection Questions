@@ -6,11 +6,23 @@ The debug panel also revealed some unexpected values that made it easier to see 
 While the game was playable, several features did not work the way a normal guessing game should. These issues made the gameplay confusing.
 
 Explain at least two concrete bugs you noticed at the start
-One bug I noticed was that the hint directions were backwards. When I guessed a number that was higher than the secret number, the game told me to “Go HIGHER” instead of telling me to go lower. This made the hints misleading and could cause players to move farther away from the correct answer. The message logic in the code appeared to be reversed, which caused the wrong hint to be displayed.
-Another issue was that starting a new game ignored the selected difficulty settings. When I clicked the “New Game” button, the secret number was always generated between 1 and 100, regardless of the difficulty chosen. This meant the Easy and Hard modes were not actually functioning as intended. As a result, the difficulty settings did not consistently affect the gameplay.
-One bug I noticed was that the Normal and Hard difficulty ranges appeared to be swapped. When selecting Hard mode, the range shown in the sidebar was 1 to 50, which is actually smaller and easier than the Normal range of 1 to 100. Hard difficulty should normally make the game more challenging by increasing the range or making the number harder to guess. Because of this swap, Hard mode was actually easier than Normal mode. This made the difficulty levels feel incorrect.
-One issue I noticed was that the New Game and Submit Guess buttons were out of sync. After clicking the New Game button, I would enter a number and press Submit Guess, but nothing would happen. The problem was that the game’s status variable was not being reset when a new game started. Because the status was still set to “won” or “lost,” the program stopped before processing the new guess. 
-To fix this, I updated the New Game logic to reset the game state by setting  st.session_state.status = "playing" and clearing other values like attempts and history. After making this change, the Submit Guess button worked normally after starting a new game.
+One bug I noticed was that the hint directions were backwards. When I guessed a number that was higher than the secret number, the game told me to “Go HIGHER” instead of telling me 
+to go lower. This made the hints misleading and could cause players to move farther away from the correct answer. The message logic in the code appeared to be reversed, 
+which caused the wrong hint to be displayed.
+Another issue was that starting a new game ignored the selected difficulty settings. 
+When I clicked the “New Game” button, the secret number was always generated between 1 and 100, 
+regardless of the difficulty chosen. This meant the Easy and Hard modes were not actually functioning as intended. 
+As a result, the difficulty settings did not consistently affect the gameplay.
+One bug I noticed was that the Normal and Hard difficulty ranges appeared to be swapped. 
+When selecting Hard mode, the range shown in the sidebar was 1 to 50, which is actually smaller and easier than the Normal range of 1 to 100. 
+Hard difficulty should normally make the game more challenging by increasing the range or making the number harder to guess. 
+Because of this swap, Hard mode was actually easier than Normal mode. This made the difficulty levels feel incorrect.
+One issue I noticed was that the New Game and Submit Guess buttons were out of sync. 
+After clicking the New Game button, I would enter a number and press Submit Guess, but nothing would happen. 
+The problem was that the game’s status variable was not being reset when a new game started. 
+Because the status was still set to “won” or “lost,” the program stopped before processing the new guess. 
+To fix this, I updated the New Game logic to reset the game state by setting  st.session_state.status = "playing" and clearing other values like attempts and history. 
+After making this change, the Submit Guess button worked normally after starting a new game.
 
 Which AI tools did you use on this project (for example: ChatGPT, Gemini, Copilot)?
 For this project, I used GitHub Copilot to help me debug and understand parts of the code. 
